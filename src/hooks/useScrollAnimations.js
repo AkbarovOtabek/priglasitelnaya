@@ -2,24 +2,19 @@ import { useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Adds GSAP-powered section entrance effects:
-// • Gold shimmer sweep across each section as it enters the viewport
-// • Subtle parallax on elements with [data-parallax] attribute
 export function useScrollAnimations(enabled = true) {
   useEffect(() => {
     if (!enabled) return;
 
-    // Delay slightly so lazy-loaded sections are mounted
     const setupId = setTimeout(() => {
       const ctx = gsap.context(() => {
-        // ── Gold light sweep ───────────────────────────────────────
+
+        // ── 1. Gold shimmer sweep across each section ─────────────
         document.querySelectorAll('.section').forEach((section) => {
           const sweep = document.createElement('div');
           Object.assign(sweep.style, {
-            position: 'absolute',
-            inset: '0',
-            pointerEvents: 'none',
-            zIndex: '2',
+            position: 'absolute', inset: '0',
+            pointerEvents: 'none', zIndex: '2',
             background:
               'linear-gradient(108deg,transparent 0%,rgba(230,200,119,0.09) 42%,rgba(255,245,180,0.16) 50%,rgba(230,200,119,0.09) 58%,transparent 100%)',
             transform: 'translateX(-115%)',
@@ -33,49 +28,63 @@ export function useScrollAnimations(enabled = true) {
             once: true,
             onEnter: () => {
               gsap.to(sweep, {
-                x: '230%',
-                duration: 1.8,
-                ease: 'power2.out',
-                onComplete: () => {
-                  try { sweep.remove(); } catch (_) { /* ignore */ }
-                },
+                x: '230%', duration: 1.8, ease: 'power2.out',
+                onComplete: () => { try { sweep.remove(); } catch (_) {} },
               });
             },
           });
         });
 
-        // ── Parallax on [data-parallax] elements ──────────────────
+        // ── 2. Glass cards: alternate left/right slide-in ────────
+        document.querySelectorAll('.glass').forEach((el, i) => {
+          const fromX = i % 2 === 0 ? -55 : 55;
+          gsap.fromTo(el,
+            { x: fromX, opacity: 0, scale: 0.94 },
+            { x: 0, opacity: 1, scale: 1, duration: 1.2, ease: 'expo.out',
+              scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+            }
+          );
+        });
+
+        // ── 3. Eyebrow lines fade+rise ───────────────────────────
+        document.querySelectorAll('.section .eyebrow').forEach((el) => {
+          gsap.fromTo(el,
+            { opacity: 0, y: 22, letterSpacing: '0.02em' },
+            { opacity: 1, y: 0, letterSpacing: '0.06em', duration: 1.0, ease: 'power3.out',
+              scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+            }
+          );
+        });
+
+        // ── 4. Parallax on [data-parallax] elements ──────────────
         document.querySelectorAll('[data-parallax]').forEach((el) => {
           const speed = parseFloat(el.dataset.parallax) || 0.22;
           gsap.to(el, {
-            y: `${speed * 110}px`,
-            ease: 'none',
+            y: `${speed * 110}px`, ease: 'none',
             scrollTrigger: {
-              trigger: el,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 1.6,
+              trigger: el, start: 'top bottom', end: 'bottom top', scrub: 1.6,
             },
           });
         });
 
-        // ── Section heading letter-spacing breathe ────────────────
-        document.querySelectorAll('.section h2.text-gold-gradient').forEach((h2) => {
-          gsap.fromTo(
-            h2,
-            { letterSpacing: '0.02em' },
-            {
-              letterSpacing: '0.08em',
-              ease: 'none',
-              scrollTrigger: {
-                trigger: h2,
-                start: 'top 75%',
-                end: 'top 30%',
-                scrub: 2,
-              },
+        // ── 5. Section dividers: expand from center ───────────────
+        document.querySelectorAll('.gold-rule').forEach((el) => {
+          gsap.fromTo(el,
+            { scaleX: 0, opacity: 0 },
+            { scaleX: 1, opacity: 1, duration: 1.1, ease: 'power2.out',
+              scrollTrigger: { trigger: el, start: 'top 90%', once: true }
             }
           );
         });
+
+        // ── 6. Hero section: subtle scale on scroll-out ──────────
+        const hero = document.getElementById('hero');
+        if (hero) {
+          gsap.to(hero, {
+            scale: 0.96, opacity: 0.6, ease: 'none',
+            scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1 },
+          });
+        }
 
         ScrollTrigger.refresh();
       });

@@ -2,7 +2,7 @@
 //  Единый источник контента. Замените значения на реальные данные.
 // ────────────────────────────────────────────────────────────────
 
-export const WEDDING_DATE = '2026-08-08T18:00:00+05:00'; // ISO, Asia/Tashkent
+export const WEDDING_DATE = '2026-08-08T19:00:00+05:00'; // ISO, Asia/Tashkent
 
 export const COUPLE = {
   groom: { uz: 'Adxam', ru: 'Адхам' },
@@ -40,7 +40,7 @@ export const content = {
       subtitle: 'Sizni shu quvonchli kunimizda ko‘rishdan mamnunmiz',
       dayLabel: '08 Avgust, 2026 · Shanba',
       events: [
-        { key: 'nikoh', name: 'Nikoh marosimi', time: '18:00', note: 'Duo, fotiha va ziyofat' },
+        { key: 'nikoh', name: 'Nikoh marosimi', time: '19:00', note: 'Duo, fotiha va ziyofat' },
       ],
     },
     calendar: {
@@ -102,7 +102,7 @@ export const content = {
       subtitle: 'Будем рады видеть вас в этот радостный день',
       dayLabel: '08 Августа, 2026 · Суббота',
       events: [
-        { key: 'nikoh', name: 'Церемония никох', time: '18:00', note: 'Дуа, благословение и ужин' },
+        { key: 'nikoh', name: 'Церемония никох', time: '19:00', note: 'Дуа, благословение и ужин' },
       ],
     },
     calendar: {
