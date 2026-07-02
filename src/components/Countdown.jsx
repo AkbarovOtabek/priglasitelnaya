@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { WEDDING_DATE } from '../data/content';
 import { useLang } from '../context/LanguageContext';
@@ -17,20 +17,19 @@ function diff() {
 function FlipUnit({ value, label }) {
   const str = String(value).padStart(2, '0');
   return (
-    <div className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2.5">
       <div
-        className="relative flex h-20 w-16 md:h-28 md:w-24 items-center justify-center glass rounded-lg"
-        style={{ perspective: 600 }}
+        className="flip-card flex h-20 w-16 md:h-28 md:w-24 items-center justify-center"
+        style={{ perspective: 700 }}
       >
-        <div className="absolute inset-x-0 top-1/2 h-px bg-gold/25" />
         <AnimatePresence mode="popLayout">
           <motion.span
             key={str}
-            initial={{ rotateX: -90, opacity: 0 }}
-            animate={{ rotateX: 0, opacity: 1 }}
-            exit={{ rotateX: 90, opacity: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-4xl md:text-6xl text-gold-gradient tabular-nums"
+            initial={{ rotateX: -90, opacity: 0, y: -6 }}
+            animate={{ rotateX: 0, opacity: 1, y: 0 }}
+            exit={{ rotateX: 90, opacity: 0, y: 6 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-10 font-display text-4xl md:text-6xl text-gold-gradient tabular-nums leading-none"
             style={{ transformStyle: 'preserve-3d' }}
           >
             {str}
@@ -63,9 +62,20 @@ export default function Countdown() {
   return (
     <div className="flex flex-col items-center gap-5">
       <p className="eyebrow text-sm md:text-base">{t.countdown.title}</p>
-      <div className="flex gap-3 md:gap-5">
-        {units.map((u) => (
-          <FlipUnit key={u.label} value={u.value} label={u.label} />
+      <div className="flex items-start gap-2 md:gap-3.5">
+        {units.map((u, i) => (
+          <Fragment key={u.label}>
+            <FlipUnit value={u.value} label={u.label} />
+            {i < units.length - 1 && (
+              <motion.span
+                className="flip-colon font-display text-3xl md:text-5xl leading-[2.1] md:leading-[2.2] select-none"
+                animate={{ opacity: [0.35, 0.85, 0.35] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                :
+              </motion.span>
+            )}
+          </Fragment>
         ))}
       </div>
     </div>

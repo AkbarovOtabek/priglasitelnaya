@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Divider } from './Ornament';
 import { Reveal } from './Reveal';
 import { VENUE } from '../data/content';
@@ -41,18 +42,21 @@ export default function Venue() {
                 className="h-full w-full object-cover"
               />
             ) : (
-              // Плейсхолдер: сюда добавляется видео ресторана
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-center gap-4 border border-dashed border-gold/40">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border border-gold/50 bg-white animate-float">
-                  <svg viewBox="0 0 24 24" className="w-6 h-6 fill-gold-deep">
+              // Плейсхолдер: элегантный экран, пока видео не добавлено
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center gap-4 overflow-hidden">
+                <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(120% 120% at 50% 30%, rgba(230,200,119,0.16), transparent 65%)' }} />
+                <motion.span
+                  className="relative flex h-20 w-20 items-center justify-center rounded-full border border-gold/50 bg-white/70 backdrop-blur"
+                  animate={{ y: [0, -8, 0], boxShadow: ['0 8px 24px rgba(198,155,58,0.18)', '0 14px 36px rgba(198,155,58,0.34)', '0 8px 24px rgba(198,155,58,0.18)'] }}
+                  transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <span className="absolute inline-flex h-full w-full rounded-full border border-gold/40 animate-ping opacity-40" />
+                  <svg viewBox="0 0 24 24" className="w-7 h-7 fill-gold-deep translate-x-[1px]">
                     <path d="M8 5v14l11-7z" />
                   </svg>
-                </span>
-                <p className="font-display text-xl text-emerald-ink">{v.videoTitle}</p>
-                <p className="text-ink-soft text-sm px-6 max-w-sm">{v.videoHint}</p>
-                <code className="text-[0.7rem] text-gold-deep bg-ink/5 px-3 py-1 rounded">
-                  /public/restaurant.mp4 → VENUE.video
-                </code>
+                </motion.span>
+                <p className="relative font-display text-2xl text-emerald-ink">{v.videoTitle}</p>
+                <p className="relative text-ink-soft text-sm px-6 max-w-sm">{v.videoHint}</p>
               </div>
             )}
           </div>

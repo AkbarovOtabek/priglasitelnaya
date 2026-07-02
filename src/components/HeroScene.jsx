@@ -4,6 +4,78 @@ import { Float, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 import { useDeviceCapability } from '../hooks/useDeviceCapability';
 
+// Геометрия сердечка (создаётся один раз).
+function makeHeartGeometry() {
+  const s = new THREE.Shape();
+  const x = 0, y = 0;
+  s.moveTo(x + 0.25, y + 0.25);
+  s.bezierCurveTo(x + 0.25, y + 0.25, x + 0.2, y, x, y);
+  s.bezierCurveTo(x - 0.3, y, x - 0.3, y + 0.35, x - 0.3, y + 0.35);
+  s.bezierCurveTo(x - 0.3, y + 0.55, x - 0.1, y + 0.77, x + 0.25, y + 0.95);
+  s.bezierCurveTo(x + 0.6, y + 0.77, x + 0.8, y + 0.55, x + 0.8, y + 0.35);
+  s.bezierCurveTo(x + 0.8, y + 0.35, x + 0.8, y, x + 0.5, y);
+  s.bezierCurveTo(x + 0.35, y, x + 0.25, y + 0.25, x + 0.25, y + 0.25);
+  const geo = new THREE.ExtrudeGeometry(s, { depth: 0.15, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 3, steps: 1 });
+  geo.center();
+  return geo;
+}
+
+// Парящие 3D сердечки — тёплый, уютный акцент.
+function FloatingHearts({ count = 6 }) {
+  const geo = useMemo(makeHeartGeometry, []);
+  const items = useMemo(
+    () => Array.from({ length: count }, (_, i) => ({
+      x: (Math.random() - 0.5) * 14,
+      y: (Math.random() - 0.5) * 9,
+      z: -1 - Math.random() * 4,
+      scale: 0.28 + Math.random() * 0.3,
+      speed: 0.25 + Math.random() * 0.35,
+      color: i % 2 === 0 ? '#e88aa4' : '#e6c877',
+      phase: Math.random() * Math.PI * 2,
+    })),
+    [count]
+  );
+  const refs = useRef([]);
+
+  useFrame((state, delta) => {
+    const t = state.clock.elapsedTime;
+    items.forEach((it, i) => {
+      const m = refs.current[i];
+      if (!m) return;
+      m.position.y += it.speed * delta * 0.5;
+      if (m.position.y > 5.5) m.position.y = -5.5;
+      m.position.x = it.x + Math.sin(t * 0.4 + it.phase) * 0.5;
+      m.rotation.z = Math.PI + Math.sin(t * 0.5 + it.phase) * 0.4;
+      m.rotation.y = t * 0.3 + it.phase;
+    });
+  });
+
+  return (
+    <group>
+      {items.map((it, i) => (
+        <mesh
+          key={i}
+          ref={(el) => (refs.current[i] = el)}
+          geometry={geo}
+          position={[it.x, it.y, it.z]}
+          scale={it.scale}
+          rotation={[0, 0, Math.PI]}
+        >
+          <meshStandardMaterial
+            color={it.color}
+            metalness={0.35}
+            roughness={0.35}
+            transparent
+            opacity={0.72}
+            emissive={it.color}
+            emissiveIntensity={0.2}
+          />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 // Парящая золотая пыль / лепестки.
 function GoldenDust({ count }) {
   const ref = useRef();
@@ -70,6 +142,7 @@ export default function HeroScene({ active = true }) {
       <Suspense fallback={null}>
         <ParallaxRig>
           <GoldenDust count={particleCount} />
+          <FloatingHearts count={particleCount > 120 ? 7 : 4} />
           <Sparkles count={Math.floor(particleCount / 8)} scale={10} size={1.4} speed={0.2} color="#e6c877" opacity={0.55} />
           <Sparkles count={Math.floor(particleCount / 12)} scale={8} size={1.0} speed={0.15} color="#e87090" opacity={0.35} />
         </ParallaxRig>

@@ -10,6 +10,7 @@ import Hero from './components/Hero';
 import EnvelopeGate from './components/Envelope';
 import Particles from './components/Particles';
 import ScrollProgress from './components/ScrollProgress';
+import Atmosphere from './components/Atmosphere';
 import { StarBurst } from './components/Ornament';
 
 // Тяжёлые секции грузим лениво.
@@ -58,27 +59,35 @@ function Shell() {
       {/* Конверт сам проигрывает анимацию открытия и убирается через AnimatePresence */}
       {loaded && <EnvelopeGate onEnter={enter} />}
 
+      {/* Атмосфера: зерно, виньетка, световые пятна */}
+      {entered && <Atmosphere />}
       {/* Конфетти + лепестки + фейерверки */}
       {entered && <Particles />}
       {/* Золотая полоска прогресса прокрутки */}
       {entered && <ScrollProgress />}
 
       <CustomCursor />
-      <LanguageToggle />
+      {entered && <LanguageToggle />}
       <MusicPlayer autostart={musicOn} />
 
-      <main className={loaded ? 'opacity-100' : 'opacity-0'}>
-        <Hero onScrollNext={scrollNext} />
+      {/* Страница остаётся скрытой, пока не открыт конверт */}
+      <main
+        className={`transition-opacity duration-1000 ease-out ${entered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+      >
+        <Hero active={entered} onScrollNext={scrollNext} />
 
-        <Suspense fallback={<SectionFallback />}>
-          <LoveAnimation />
-          <Ceremony />
-          <CoupleSection />
-          <Calendar />
-          <Venue />
-          <LocationMap />
-          <Footer />
-        </Suspense>
+        {/* Тяжёлые секции монтируем только после открытия конверта */}
+        {entered && (
+          <Suspense fallback={<SectionFallback />}>
+            <LoveAnimation />
+            <Ceremony />
+            <CoupleSection />
+            <Calendar />
+            <Venue />
+            <LocationMap />
+            <Footer />
+          </Suspense>
+        )}
       </main>
     </>
   );
