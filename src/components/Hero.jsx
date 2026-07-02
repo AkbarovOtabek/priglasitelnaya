@@ -4,6 +4,7 @@ import Countdown from './Countdown';
 import { Divider } from './Ornament';
 import { COUPLE } from '../data/content';
 import { useLang } from '../context/LanguageContext';
+import CoupleSVG from './CoupleSVG';
 
 const HeroScene = lazy(() => import('./HeroScene'));
 
@@ -41,8 +42,29 @@ export default function Hero({ onScrollNext }) {
           {t.hero.eyebrow}
         </motion.p>
 
-        {/* отступ под парящие 3D-кольца */}
-        <div className="h-28 md:h-36" />
+        {/* Floating couple illustration (replaces 3D ring) */}
+        <motion.div
+          className="relative mt-6 mb-2"
+          initial={{ opacity: 0, scale: 0.82, y: 24 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.35, duration: 1.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <motion.div
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="relative"
+          >
+            {/* Soft glow behind illustration */}
+            <div
+              className="absolute -inset-6 rounded-full pointer-events-none"
+              style={{ background: 'radial-gradient(circle, rgba(230,180,100,0.15) 0%, rgba(230,80,120,0.08) 50%, transparent 75%)' }}
+            />
+            <CoupleSVG
+              className="relative z-10 drop-shadow-xl"
+              style={{ width: 'clamp(180px, 38vw, 260px)', height: 'auto' }}
+            />
+          </motion.div>
+        </motion.div>
 
         <motion.h1
           className="font-display text-5xl md:text-8xl leading-none text-gold-gradient"

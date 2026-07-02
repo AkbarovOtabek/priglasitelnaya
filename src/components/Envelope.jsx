@@ -54,25 +54,58 @@ export default function EnvelopeGate({ onEnter }) {
       {!gone && (
         <motion.div
           className="fixed inset-0 z-[9000] flex flex-col items-center justify-center bg-emerald-tint px-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.15, filter: 'blur(10px)' }}
           transition={{ duration: 1, ease: [0.6, 0, 0.2, 1] }}
         >
+          {/* Background sparkle particles */}
+          {Array.from({ length: 14 }, (_, i) => (
+            <motion.div
+              key={i}
+              className="absolute pointer-events-none select-none text-[#c69b3a]"
+              style={{
+                left: `${(i * 37 + 5) % 95}%`,
+                top: `${(i * 53 + 10) % 90}%`,
+                fontSize: 8 + (i % 4) * 4,
+                opacity: 0.2 + (i % 3) * 0.12,
+              }}
+              animate={{
+                opacity: [0.15, 0.5, 0.15],
+                scale: [0.8, 1.3, 0.8],
+              }}
+              transition={{
+                duration: 2.5 + (i % 5) * 0.7,
+                delay: (i * 0.35) % 3,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              ✦
+            </motion.div>
+          ))}
+
           {/* Floating bismillah */}
           <motion.p
             className="eyebrow text-base md:text-xl mb-10"
             initial={{ opacity: 0, y: -14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.9 }}
+            transition={{ delay: 0.4, duration: 0.9 }}
           >
             {t.hero.eyebrow}
           </motion.p>
 
-          <div
-            className={`env interactive ${open ? 'open' : ''}`}
-            onClick={click}
-            role="button"
-            aria-label="open invitation"
+          <motion.div
+            initial={{ opacity: 0, scale: 0.75, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
           >
+            <div
+              className={`env interactive ${open ? 'open' : ''}`}
+              onClick={click}
+              role="button"
+              aria-label="open invitation"
+            >
             {/* ── Envelope body ── */}
             <div className="env-body">
               <div className="env-pocket" />
@@ -147,7 +180,8 @@ export default function EnvelopeGate({ onEnter }) {
             <div className="env-seal">
               <span style={{fontStyle:'italic'}}>{COUPLE.initials}</span>
             </div>
-          </div>
+            </div>
+          </motion.div>
 
           {!open && (
             <motion.p

@@ -133,7 +133,7 @@ export default function Calendar() {
 
   return (
     <section id="calendar" className="section flex-col py-24 bg-panel">
-      <Reveal variant="flip" className="w-full max-w-xs sm:max-w-sm px-3 sm:px-4">
+      <Reveal variant="flip" className="w-full max-w-sm sm:max-w-md px-3 sm:px-4">
         <div
           className="relative rounded-[2rem] overflow-hidden"
           style={{

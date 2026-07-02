@@ -15,7 +15,7 @@ import { StarBurst } from './components/Ornament';
 // Тяжёлые секции грузим лениво.
 const LoveAnimation = lazy(() => import('./components/LoveAnimation'));
 const Ceremony = lazy(() => import('./components/Ceremony'));
-const WeddingDivider = lazy(() => import('./components/WeddingDivider'));
+const CoupleSection = lazy(() => import('./components/CoupleSection'));
 const Calendar = lazy(() => import('./components/Calendar'));
 const Venue = lazy(() => import('./components/Venue'));
 const LocationMap = lazy(() => import('./components/LocationMap'));
@@ -73,7 +73,7 @@ function Shell() {
         <Suspense fallback={<SectionFallback />}>
           <LoveAnimation />
           <Ceremony />
-          <WeddingDivider />
+          <CoupleSection />
           <Calendar />
           <Venue />
           <LocationMap />
