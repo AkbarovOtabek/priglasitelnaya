@@ -1,6 +1,7 @@
 import { useState, lazy, Suspense } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
+import { useScrollAnimations } from './hooks/useScrollAnimations';
 import Preloader from './components/Preloader';
 import CustomCursor from './components/CustomCursor';
 import LanguageToggle from './components/LanguageToggle';
@@ -8,6 +9,7 @@ import MusicPlayer from './components/MusicPlayer';
 import Hero from './components/Hero';
 import EnvelopeGate from './components/Envelope';
 import Particles from './components/Particles';
+import ScrollProgress from './components/ScrollProgress';
 import { StarBurst } from './components/Ornament';
 
 // Тяжёлые секции грузим лениво.
@@ -31,6 +33,7 @@ function Shell() {
   const [entered, setEntered] = useState(false);
   const [musicOn, setMusicOn] = useState(false);
   useSmoothScroll(entered);
+  useScrollAnimations(entered);
 
   const enter = () => {
     setEntered(true);
@@ -56,6 +59,8 @@ function Shell() {
 
       {/* Конфетти + лепестки + фейерверки */}
       {entered && <Particles />}
+      {/* Золотая полоска прогресса прокрутки */}
+      {entered && <ScrollProgress />}
 
       <CustomCursor />
       <LanguageToggle />
