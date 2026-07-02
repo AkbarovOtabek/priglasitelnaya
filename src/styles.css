@@ -1,0 +1,371 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ivory: #f7f2e9;
+  --ivory-2: #fbf8f1;
+  --white: #ffffff;
+  --ink: #2b352e;
+  --ink-soft: #5d6b62;
+  --emerald: #0b3d2e;
+  --emerald-soft: #3b6b58;
+  --gold: #c69b3a;
+  --gold-deep: #a97e1f;
+  --gold-light: #e6c877;
+  --bordo: #7a1f2b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+body {
+  cursor: none;
+}
+
+@media (hover: none) {
+  body {
+    cursor: auto;
+  }
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Lenis smooth-scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ── Section scaffolding ── */
+.section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Section backgrounds (light) */
+.bg-page {
+  background: var(--ivory);
+}
+.bg-panel {
+  background: linear-gradient(180deg, var(--ivory-2), var(--ivory));
+}
+.bg-emerald-tint {
+  background: radial-gradient(120% 100% at 50% 0%, #eef4ef 0%, var(--ivory) 60%);
+}
+
+/* ── Gold gradient text (shimmer) ── */
+.text-gold-gradient {
+  background: linear-gradient(
+    100deg,
+    #9a7420 0%,
+    #c69b3a 25%,
+    #e6c877 50%,
+    #c69b3a 75%,
+    #9a7420 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.text-emerald-ink {
+  color: var(--emerald);
+}
+
+/* ── 3D-надпись имён (экструдированное золото) ── */
+.name3d {
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(100deg, #9a7420 0%, #c69b3a 25%, #f4e19a 50%, #c69b3a 75%, #9a7420 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+  filter: drop-shadow(2px 4px 3px rgba(122, 92, 21, 0.3));
+}
+.name3d::before {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  -webkit-text-fill-color: #6e5214;
+  color: #6e5214;
+  text-shadow: 1px 1px 0 #63490f, 2px 2px 0 #5a420d, 3px 3px 0 #4e390b, 4px 5px 10px rgba(0, 0, 0, 0.22);
+}
+
+/* ── Glassmorphism card (light) ── */
+.glass {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(198, 155, 58, 0.35);
+  box-shadow: 0 24px 60px rgba(43, 53, 46, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+/* ── Thin gold divider ── */
+.gold-rule {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(198, 155, 58, 0.8) 50%, transparent);
+}
+
+/* ── Custom cursor ── */
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  will-change: transform;
+}
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold-deep);
+  box-shadow: 0 0 10px rgba(198, 155, 58, 0.6);
+}
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(169, 126, 31, 0.65);
+  transition: width 0.25s, height 0.25s, background 0.25s;
+}
+.cursor-ring.hovering {
+  width: 56px;
+  height: 56px;
+  background: rgba(198, 155, 58, 0.12);
+}
+
+/* ── Buttons ── */
+.btn-gold {
+  position: relative;
+  font-family: 'Jost', sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: var(--emerald);
+  padding: 1rem 2.4rem;
+  border: 1px solid rgba(169, 126, 31, 0.7);
+  background: linear-gradient(180deg, rgba(230, 200, 119, 0.28), rgba(230, 200, 119, 0.08));
+  border-radius: 2px;
+  overflow: hidden;
+  transition: color 0.3s, box-shadow 0.4s, transform 0.3s;
+}
+.btn-gold:hover {
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(198, 155, 58, 0.35);
+  transform: translateY(-2px);
+}
+.btn-gold::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.7, 0, 0.2, 1);
+  z-index: -1;
+}
+.btn-gold:hover::before {
+  transform: scaleX(1);
+}
+
+/* ── Section eyebrow ── */
+.eyebrow {
+  font-family: 'Amiri', serif;
+  font-style: italic;
+  color: var(--gold-deep);
+  letter-spacing: 0.05em;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(198, 155, 58, 0.5);
+  border-radius: 4px;
+}
+
+/* Leaflet pin bounce */
+@keyframes pin-drop {
+  0% {
+    transform: translateY(-260px) scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-24px) scale(1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+.gold-pin {
+  animation: pin-drop 1.2s cubic-bezier(0.5, 0, 0.2, 1) both;
+}
+
+.leaflet-container {
+  background: #eef4ef;
+  font-family: 'Jost', sans-serif;
+}
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(43, 53, 46, 0.5) !important;
+}
+.leaflet-control-attribution a {
+  color: var(--gold-deep) !important;
+}
+
+/* ─────────────────────────────────────────────
+   ENVELOPE (interactive, opens on click)
+   ───────────────────────────────────────────── */
+.env-scene {
+  perspective: 1400px;
+}
+.env {
+  position: relative;
+  width: min(88vw, 460px);
+  aspect-ratio: 3 / 2;
+  transform-style: preserve-3d;
+}
+.env-body {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #fbf8f1 0%, #f1e7d2 100%);
+  box-shadow: 0 30px 70px rgba(43, 53, 46, 0.22), inset 0 0 0 1px rgba(169, 126, 31, 0.4);
+  overflow: hidden;
+}
+/* нижний треугольный клапан-«карман» */
+.env-pocket {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 49.6%, rgba(169, 126, 31, 0.18) 50%) bottom left / 50% 100%
+      no-repeat,
+    linear-gradient(-135deg, transparent 49.6%, rgba(169, 126, 31, 0.18) 50%) bottom right / 50%
+      100% no-repeat;
+}
+.env-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 56%;
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 0.9s cubic-bezier(0.6, 0, 0.2, 1);
+  z-index: 30;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background: linear-gradient(160deg, #f4ead4 0%, #e7d3a6 100%);
+  box-shadow: inset 0 0 0 1px rgba(169, 126, 31, 0.4);
+}
+.env.open .env-flap {
+  transform: rotateX(180deg);
+  z-index: 5;
+  transition: transform 0.9s cubic-bezier(0.6, 0, 0.2, 1);
+}
+.env-letter {
+  position: absolute;
+  left: 6%;
+  top: 8%;
+  width: 88%;
+  height: 84%;
+  background: var(--white);
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(43, 53, 46, 0.18);
+  z-index: 10;
+  transform: translateY(0) scale(0.98);
+  opacity: 0;
+  transition: transform 1s cubic-bezier(0.5, 0, 0.2, 1) 0.35s, opacity 0.6s 0.35s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.env.open .env-letter {
+  transform: translateY(-58%) scale(1);
+  opacity: 1;
+  z-index: 40;
+}
+.env-seal {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  transform: translate(-50%, -50%);
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d9b455, #a97e1f 70%);
+  box-shadow: 0 8px 20px rgba(122, 31, 43, 0.25), inset 0 2px 6px rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff8e6;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  z-index: 60;
+  transition: opacity 0.4s, transform 0.5s;
+}
+.env.open .env-seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+  pointer-events: none;
+}
+
+/* reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
