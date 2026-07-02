@@ -50,9 +50,9 @@ export default function Hero({ onScrollNext }) {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.4, duration: 1, ease: [0.22, 1, 0.36, 1] }}
         >
-          {COUPLE.bride[lang]}
+          <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
           <span className="mx-3 md:mx-5 text-emerald-ink align-middle text-3xl md:text-6xl">&amp;</span>
-          {COUPLE.groom[lang]}
+          <span className="name3d" data-text={COUPLE.groom[lang]}>{COUPLE.groom[lang]}</span>
         </motion.h1>
 
         <motion.p

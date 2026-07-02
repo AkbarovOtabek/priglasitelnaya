@@ -63,10 +63,10 @@ export default function EnvelopeGate({ onEnter }) {
                   <path d="M20 4 L24 16 L36 20 L24 24 L20 36 L16 24 L4 20 L16 16 Z" />
                 </svg>
                 <p className="eyebrow text-[0.7rem] md:text-sm">{t.hero.pretitle}</p>
-                <h2 className="font-display text-3xl md:text-5xl text-gold-gradient leading-tight mt-1">
-                  {COUPLE.bride[lang]}
+                <h2 className="font-display text-3xl md:text-5xl leading-tight mt-1">
+                  <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
                   <span className="mx-2 text-emerald-ink">&amp;</span>
-                  {COUPLE.groom[lang]}
+                  <span className="name3d" data-text={COUPLE.groom[lang]}>{COUPLE.groom[lang]}</span>
                 </h2>
                 <div className="gold-rule w-24 mx-auto my-2" />
                 <p className="tracking-[0.28em] uppercase text-[0.65rem] md:text-xs text-emerald-ink">

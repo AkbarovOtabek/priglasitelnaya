@@ -113,14 +113,13 @@ html.lenis body {
 .name3d {
   position: relative;
   display: inline-block;
-  background: linear-gradient(100deg, #9a7420 0%, #c69b3a 25%, #f4e19a 50%, #c69b3a 75%, #9a7420 100%);
+  background: linear-gradient(100deg, #9a7420 0%, #c69b3a 20%, #f4e19a 45%, #ffe680 55%, #c69b3a 78%, #9a7420 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: shimmer 6s linear infinite;
-  filter: drop-shadow(2px 4px 3px rgba(122, 92, 21, 0.3));
+  animation: shimmer 5s linear infinite, name-glow 3.5s ease-in-out infinite;
 }
 .name3d::before {
   content: attr(data-text);
@@ -128,9 +127,21 @@ html.lenis body {
   left: 0;
   top: 0;
   z-index: -1;
-  -webkit-text-fill-color: #6e5214;
-  color: #6e5214;
-  text-shadow: 1px 1px 0 #63490f, 2px 2px 0 #5a420d, 3px 3px 0 #4e390b, 4px 5px 10px rgba(0, 0, 0, 0.22);
+  -webkit-text-fill-color: #8a6218;
+  color: #8a6218;
+  text-shadow:
+    1px 1px 0 #7a5614,
+    2px 2px 0 #6e4e12,
+    3px 3px 0 #634610,
+    4px 4px 0 #583f0e,
+    5px 5px 0 #4e370c,
+    6px 6px 0 #44300a,
+    7px 9px 14px rgba(0, 0, 0, 0.32),
+    0 0 30px rgba(198, 155, 58, 0.18);
+}
+@keyframes name-glow {
+  0%, 100% { filter: drop-shadow(0px 4px 5px rgba(122, 92, 21, 0.35)); }
+  50% { filter: drop-shadow(0px 6px 14px rgba(198, 155, 58, 0.65)) drop-shadow(0px 0px 22px rgba(230, 200, 119, 0.25)); }
 }
 
 /* ── Glassmorphism card (light) ── */
@@ -332,9 +343,14 @@ html.lenis body {
   padding: 1rem;
 }
 .env.open .env-letter {
-  transform: translateY(-58%) scale(1);
+  transform: translateY(-110%) scale(1.02);
   opacity: 1;
   z-index: 40;
+  box-shadow: 0 20px 60px rgba(43, 53, 46, 0.28);
+}
+.env.open .env-body {
+  opacity: 0.65;
+  transition: opacity 0.7s ease 0.6s;
 }
 .env-seal {
   position: absolute;
@@ -359,6 +375,29 @@ html.lenis body {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.4);
   pointer-events: none;
+}
+
+/* ── Falling petals & hearts ── */
+@keyframes fall-petal {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+    opacity: 0;
+  }
+  5% { opacity: 0.9; }
+  50% {
+    transform: translateY(50vh) translateX(calc(var(--drift) * 0.5)) rotate(360deg) scale(0.9);
+  }
+  95% { opacity: 0.7; }
+  100% {
+    transform: translateY(110vh) translateX(var(--drift)) rotate(720deg) scale(0.7);
+    opacity: 0;
+  }
+}
+.falling-petal {
+  position: fixed;
+  pointer-events: none;
+  animation: fall-petal linear infinite;
+  will-change: transform;
 }
 
 /* reduce motion */

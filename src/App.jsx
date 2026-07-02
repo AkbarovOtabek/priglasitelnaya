@@ -7,6 +7,7 @@ import LanguageToggle from './components/LanguageToggle';
 import MusicPlayer from './components/MusicPlayer';
 import Hero from './components/Hero';
 import EnvelopeGate from './components/Envelope';
+import Particles from './components/Particles';
 import { StarBurst } from './components/Ornament';
 
 // Тяжёлые секции грузим лениво.
@@ -52,6 +53,9 @@ function Shell() {
       <Preloader onDone={() => setLoaded(true)} />
       {/* Конверт сам проигрывает анимацию открытия и убирается через AnimatePresence */}
       {loaded && <EnvelopeGate onEnter={enter} />}
+
+      {/* Конфетти + лепестки + фейерверки */}
+      {entered && <Particles />}
 
       <CustomCursor />
       <LanguageToggle />

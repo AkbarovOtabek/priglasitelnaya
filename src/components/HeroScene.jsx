@@ -40,33 +40,74 @@ function GoldenDust({ count }) {
   );
 }
 
-// Два переплетённых золотых кольца (3D-объект).
-function WeddingRings() {
+// Солитер: тонкая платиновая полоса + бриллиант.
+function SolitaireRing() {
   const group = useRef();
+  const diamondRef = useRef();
+
   useFrame((state, delta) => {
     if (!group.current) return;
-    group.current.rotation.y += delta * 0.35;
-    group.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.4) * 0.12;
+    group.current.rotation.y += delta * 0.28;
+    group.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.35) * 0.09;
+    if (diamondRef.current) {
+      diamondRef.current.material.emissiveIntensity =
+        0.35 + Math.sin(state.clock.elapsedTime * 2.4) * 0.2;
+    }
   });
 
-  const gold = {
-    color: '#d4af37',
-    metalness: 0.45,
-    roughness: 0.28,
-    emissive: '#9a7420',
-    emissiveIntensity: 0.35,
+  const platinum = {
+    color: '#dde0ea',
+    metalness: 0.96,
+    roughness: 0.05,
+    emissive: '#8899bb',
+    emissiveIntensity: 0.06,
   };
 
   return (
-    <Float speed={1.6} rotationIntensity={0.5} floatIntensity={0.8}>
-      <group ref={group} position={[0, 2.35, 0]} scale={0.82}>
-        <mesh rotation={[Math.PI / 2.2, 0.2, 0]} position={[-0.42, 0, 0]}>
-          <torusGeometry args={[1, 0.11, 24, 120]} />
-          <meshStandardMaterial {...gold} />
+    <Float speed={1.4} rotationIntensity={0.4} floatIntensity={0.8}>
+      <group ref={group} position={[0, 1.85, 0]} scale={0.48}>
+        {/* Тонкое кольцо — обручальная полоса */}
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.84, 0.046, 32, 128]} />
+          <meshStandardMaterial {...platinum} />
         </mesh>
-        <mesh rotation={[Math.PI / 1.8, -0.3, 0]} position={[0.42, 0, 0]}>
-          <torusGeometry args={[1, 0.11, 24, 120]} />
-          <meshStandardMaterial {...gold} color="#e6c877" />
+        {/* Оправа (конус-крапан) */}
+        <mesh position={[0, 0.86, 0]}>
+          <cylinderGeometry args={[0.082, 0.118, 0.24, 8]} />
+          <meshStandardMaterial {...platinum} />
+        </mesh>
+        {/* Бриллиант (октаэдр = форма огранки) */}
+        <mesh ref={diamondRef} position={[0, 1.08, 0]}>
+          <octahedronGeometry args={[0.24, 0]} />
+          <meshStandardMaterial
+            color="#e6f0ff"
+            metalness={0.05}
+            roughness={0}
+            emissive="#88aaff"
+            emissiveIntensity={0.35}
+            transparent
+            opacity={0.9}
+          />
+        </mesh>
+        {/* Верхняя искра блика */}
+        <mesh position={[0, 1.26, 0]}>
+          <sphereGeometry args={[0.048, 8, 8]} />
+          <meshStandardMaterial
+            color="#ffffff"
+            emissive="#ffffff"
+            emissiveIntensity={2.5}
+            transparent
+            opacity={0.75}
+          />
+        </mesh>
+        {/* Боковые блики бриллианта */}
+        <mesh position={[0.18, 1.05, 0.1]}>
+          <sphereGeometry args={[0.022, 6, 6]} />
+          <meshStandardMaterial color="#ffffff" emissive="#aaddff" emissiveIntensity={3} transparent opacity={0.5} />
+        </mesh>
+        <mesh position={[-0.16, 1.02, -0.12]}>
+          <sphereGeometry args={[0.018, 6, 6]} />
+          <meshStandardMaterial color="#ffffff" emissive="#ffddaa" emissiveIntensity={3} transparent opacity={0.45} />
         </mesh>
       </group>
     </Float>
@@ -102,7 +143,7 @@ export default function HeroScene({ active = true }) {
 
       <Suspense fallback={null}>
         <ParallaxRig>
-          <WeddingRings />
+          <SolitaireRing />
           <GoldenDust count={particleCount} />
         </ParallaxRig>
       </Suspense>
