@@ -7,7 +7,10 @@ export default defineConfig({
   // .MP4 (заглавное расширение) по умолчанию не распознаётся как ассет — добавляем явно.
   assetsInclude: ['**/*.MP4', '**/*.MOV'],
 
-base: '/priglasitelnaya/',
+  // Относительные пути к ассетам — работает и на Vercel (корень домена),
+  // и на GitHub Pages (подпапка /priglasitelnaya/). Абсолютный '/priglasitelnaya/'
+  // ломал загрузку ассетов на Vercel → белый экран.
+  base: './',
 
   server: {
     host: true,
