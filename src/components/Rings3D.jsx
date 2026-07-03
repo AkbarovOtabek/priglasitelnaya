@@ -95,7 +95,7 @@ function RingPair() {
   );
 }
 
-export default function Rings3D({ className = '', style = {} }) {
+export default function Rings3D({ className = '', style = {}, active = true }) {
   const { dpr } = useDeviceCapability();
 
   return (
@@ -104,6 +104,7 @@ export default function Rings3D({ className = '', style = {} }) {
         dpr={dpr}
         camera={{ position: [0, 0.1, 5], fov: 42 }}
         gl={{ antialias: true, alpha: true }}
+        frameloop={active ? 'always' : 'demand'}
       >
         <ambientLight intensity={0.7} />
         <directionalLight position={[3, 4, 5]} intensity={1.4} color="#fff3d6" />

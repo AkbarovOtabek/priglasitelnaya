@@ -1,10 +1,16 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useDeviceCapability } from '../hooks/useDeviceCapability';
 
-// ── Canvas-based fireworks ──────────────────────────────────────
+// ── Canvas-based fireworks (intro only) ─────────────────────────
 function Fireworks() {
   const canvasRef = useRef();
+  const { isLowPower } = useDeviceCapability();
+  // Салют играет один раз на интро. После завершения canvas размонтируется,
+  // чтобы освободить полноэкранный буфер (~5 МБ) и убрать лишний слой композитинга.
+  const [finished, setFinished] = useState(false);
 
   useEffect(() => {
+    if (finished) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -17,6 +23,8 @@ function Fireworks() {
     window.addEventListener('resize', resize);
 
     let animId;
+    let running = false;
+    let burstsPending = 0;
     const particles = [];
 
     const COLORS = [
@@ -28,7 +36,9 @@ function Fireworks() {
 
     function burst(x, y) {
       const baseColor = COLORS[Math.floor(Math.random() * COLORS.length)];
-      const n = 85 + Math.floor(Math.random() * 35);
+      const n = isLowPower
+        ? 45 + Math.floor(Math.random() * 20)
+        : 85 + Math.floor(Math.random() * 35);
       for (let i = 0; i < n; i++) {
         const angle = (Math.PI * 2 * i) / n + (Math.random() - 0.5) * 0.45;
         const speed = (1.5 + Math.random() * 5.8) * (window.innerWidth < 600 ? 0.65 : 1);
@@ -43,11 +53,16 @@ function Fireworks() {
           trail: i % 4 === 0,
         });
       }
+      startLoop();
     }
 
-    const delays = [0, 450, 950, 1600, 2250, 2900, 3600, 4350, 5200, 6100];
+    const delays = isLowPower
+      ? [0, 700, 1500, 2400, 3400, 4600]
+      : [0, 450, 950, 1600, 2250, 2900, 3600, 4350, 5200, 6100];
+    burstsPending = delays.length;
     const timeouts = delays.map(d =>
       setTimeout(() => {
+        burstsPending--;
         const x = window.innerWidth * (0.12 + Math.random() * 0.76);
         const y = window.innerHeight * (0.06 + Math.random() * 0.44);
         burst(x, y);
@@ -61,6 +76,13 @@ function Fireworks() {
         }
       }, d)
     );
+
+    function startLoop() {
+      if (!running) {
+        running = true;
+        animId = requestAnimationFrame(tick);
+      }
+    }
 
     function tick() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -94,17 +116,24 @@ function Fireworks() {
         ctx.restore();
       }
 
+      // Останавливаем цикл, когда салют отыграл — иначе rAF крутится всю сессию.
+      if (particles.length === 0 && burstsPending === 0) {
+        running = false;
+        setFinished(true); // размонтируем canvas и освобождаем память
+        return;
+      }
       animId = requestAnimationFrame(tick);
     }
 
-    tick();
-
     return () => {
       cancelAnimationFrame(animId);
+      running = false;
       timeouts.forEach(clearTimeout);
       window.removeEventListener('resize', resize);
     };
-  }, []);
+  }, [finished, isLowPower]);
+
+  if (finished) return null;
 
   return (
     <canvas
@@ -122,7 +151,7 @@ function Fireworks() {
 }
 
 // ── Falling petals / hearts / stars ────────────────────────────
-const PETAL_DATA = Array.from({ length: 32 }, (_, i) => ({
+const makePetals = (count) => Array.from({ length: count }, (_, i) => ({
   id: i,
   left: (i * 37 + 5) % 100,
   delay: (i * 0.62) % 10,
@@ -133,6 +162,9 @@ const PETAL_DATA = Array.from({ length: 32 }, (_, i) => ({
   color: ['#ffb3c6', '#ffc8dd', '#e6c877', '#c69b3a', '#ff9a9e', '#ffd3e1', '#f4e19a', '#d4a0ff', '#aee6d8'][i % 9],
   opacity: 0.55 + (i % 5) * 0.09,
 }));
+// Полная россыпь на десктопе; на слабых/мобильных — заметно меньше слоёв композитинга.
+const PETAL_DATA_FULL = makePetals(32);
+const PETAL_DATA_LITE = makePetals(14);
 
 const HEART_PATH = 'M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z';
 const STAR_PATH = 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z';
@@ -179,6 +211,8 @@ function PetalShape({ type, color }) {
 }
 
 function FallingPetals() {
+  const { isLowPower } = useDeviceCapability();
+  const petals = isLowPower ? PETAL_DATA_LITE : PETAL_DATA_FULL;
   return (
     <div
       style={{
@@ -189,7 +223,7 @@ function FallingPetals() {
         zIndex: 8997,
       }}
     >
-      {PETAL_DATA.map(p => (
+      {petals.map(p => (
         <div
           key={p.id}
           className="falling-petal"

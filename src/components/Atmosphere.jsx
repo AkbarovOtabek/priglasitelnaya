@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useDeviceCapability } from '../hooks/useDeviceCapability';
 
 // Медленно дрейфующие световые пятна — глубина и «уют».
 const BLOBS = [
@@ -8,9 +9,11 @@ const BLOBS = [
 ];
 
 export default function Atmosphere() {
+  const { isLowPower } = useDeviceCapability();
+  const blobs = isLowPower ? BLOBS.slice(0, 2) : BLOBS;
   return (
     <div className="atmosphere" aria-hidden="true">
-      {BLOBS.map((b, i) => (
+      {blobs.map((b, i) => (
         <motion.div
           key={i}
           className="light-blob"

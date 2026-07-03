@@ -59,6 +59,7 @@ export default function Hero({ active = true, onScrollNext }) {
             />
             <Suspense fallback={<div style={{ width: 'clamp(210px,44vw,300px)', height: 'clamp(210px,44vw,300px)' }} />}>
               <Rings3D
+                active={sceneActive}
                 className="relative z-10"
                 style={{ width: 'clamp(210px, 44vw, 300px)', height: 'clamp(210px, 44vw, 300px)' }}
               />
@@ -71,9 +72,9 @@ export default function Hero({ active = true, onScrollNext }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.55, duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
-            <span className="mx-3 md:mx-5 text-emerald-ink align-middle text-3xl md:text-6xl">&amp;</span>
             <span className="name3d" data-text={COUPLE.groom[lang]}>{COUPLE.groom[lang]}</span>
+            <span className="mx-3 md:mx-5 text-emerald-ink align-middle text-3xl md:text-6xl">&amp;</span>
+            <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
           </motion.h1>
 
           <motion.p

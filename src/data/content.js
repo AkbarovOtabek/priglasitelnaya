@@ -58,19 +58,19 @@ export const content = {
     venue: {
       title: 'To‘y qayerda bo‘ladi',
       subtitle: 'To‘yxona haqida',
-      name: 'Grand Hall to‘yxonasi',
-      address: 'Toshkent sh., Amir Temur ko‘chasi 12',
+      name: 'Farovon to‘yxonasi',
+      address: 'Navoiy sh., Karvon ko‘chasi 336',
       videoTitle: 'To‘yxona videosi',
       videoHint: 'Restoran videosini shu yerga joylang',
     },
     location: {
       title: 'Manzil',
-      subtitle: 'Grand Hall to‘yxonasi',
+      subtitle: 'Farovon to‘yxonasi',
       route: 'Marshrut qurish',
     },
     footer: {
       thanks: 'Sizni kutib qolamiz',
-      names: 'Malika & Adxam',
+      names: 'Adxam & Malika',
     },
   },
 
@@ -122,29 +122,29 @@ export const content = {
     venue: {
       title: 'Где пройдёт свадьба',
       subtitle: 'О месте торжества',
-      name: 'Той-хона «Grand Hall»',
-      address: 'г. Ташкент, ул. Амира Темура 12',
+      name: 'Той-хона «Farovon»',
+      address: 'г. Навои, ул. Карвон 336',
       videoTitle: 'Видео ресторана',
       videoHint: 'Разместите здесь видео ресторана',
     },
     location: {
       title: 'Локация',
-      subtitle: 'Той-хона «Grand Hall»',
+      subtitle: 'Той-хона «Farovon»',
       route: 'Построить маршрут',
     },
     footer: {
       thanks: 'С нетерпением ждём вас',
-      names: 'Malika & Adxam',
+      names: 'Adxam & Malika',
     },
   },
 };
 
-// Координаты той-ханы (замените на реальные)
+// Координаты той-ханы «Farovon» (Yandex Maps org 66229812019)
 export const VENUE = {
-  lat: 41.311081,
-  lng: 69.279737,
-  gmaps: 'https://www.google.com/maps/dir/?api=1&destination=41.311081,69.279737',
-  yandex: 'https://yandex.uz/maps/?rtext=~41.311081,69.279737',
+  lat: 40.130101,
+  lng: 65.387291,
+  gmaps: 'https://www.google.com/maps/dir/?api=1&destination=40.130101,65.387291',
+  yandex: 'https://yandex.uz/maps/org/farovon/66229812019/?ll=65.387291%2C40.130101&z=17',
   // Видео ресторана: положите файл в /public и укажите путь, напр. '/restaurant.mp4'
   video: '',
   poster: '',

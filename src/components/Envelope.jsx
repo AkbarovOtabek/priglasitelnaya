@@ -187,7 +187,7 @@ export default function EnvelopeGate({ onEnter }) {
                 {/* Names — elegant layout */}
                 <div className="font-display leading-tight">
                   <div className="text-[1.55rem] md:text-[2.2rem] mb-0.5">
-                    <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
+                    <span className="name3d" data-text={COUPLE.groom[lang]}>{COUPLE.groom[lang]}</span>
                   </div>
                   {/* Heart divider */}
                   <motion.div
@@ -198,7 +198,7 @@ export default function EnvelopeGate({ onEnter }) {
                     ♡
                   </motion.div>
                   <div className="text-[1.55rem] md:text-[2.2rem] mt-0.5">
-                    <span className="name3d" data-text={COUPLE.groom[lang]}>{COUPLE.groom[lang]}</span>
+                    <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
                   </div>
                 </div>
 
@@ -226,8 +226,6 @@ export default function EnvelopeGate({ onEnter }) {
 
             {/* ── Flap ── */}
             <div className="env-flap" />
-            {/* ── Shine sweep across the letter on open ── */}
-            <div className="env-shine" />
 
             {/* ── Seal ── */}
             <div className="env-seal">

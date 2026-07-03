@@ -145,7 +145,7 @@ export default function CoupleSection() {
             transition={{ delay: 0.4, duration: 0.9 }}
           >
             <p className="font-display text-2xl md:text-3xl tracking-wide">
-              <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
+              <span className="name3d" data-text={COUPLE.groom[lang]}>{COUPLE.groom[lang]}</span>
               <motion.span
                 className="mx-3 inline-block"
                 style={{ color: '#e06080', fontSize: '1.4rem' }}
@@ -154,7 +154,7 @@ export default function CoupleSection() {
               >
                 ♡
               </motion.span>
-              <span className="name3d" data-text={COUPLE.groom[lang]}>{COUPLE.groom[lang]}</span>
+              <span className="name3d" data-text={COUPLE.bride[lang]}>{COUPLE.bride[lang]}</span>
             </p>
           </motion.div>
         </div>

@@ -2,19 +2,21 @@ import { motion } from 'framer-motion';
 import { Divider } from './Ornament';
 import { Reveal } from './Reveal';
 import { useLang } from '../context/LanguageContext';
+import { useDeviceCapability } from '../hooks/useDeviceCapability';
 
 // Мультяжная анимированная сцена «история любви» (светлая палитра).
 export default function LoveAnimation() {
   const { t } = useLang();
+  const { isLowPower } = useDeviceCapability();
 
-  const sparkles = Array.from({ length: 22 }, (_, i) => ({
+  const sparkles = Array.from({ length: isLowPower ? 12 : 22 }, (_, i) => ({
     x: (i * 53) % 600,
     y: (i * 31) % 200,
     r: 0.8 + (i % 3) * 0.7,
     d: (i % 5) * 0.4,
   }));
 
-  const hearts = Array.from({ length: 6 }, (_, i) => ({
+  const hearts = Array.from({ length: isLowPower ? 4 : 6 }, (_, i) => ({
     x: 210 + i * 30,
     delay: i * 0.7,
     dur: 4 + (i % 3),

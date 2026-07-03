@@ -1,7 +1,8 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { LanguageProvider } from './context/LanguageContext';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { useScrollAnimations } from './hooks/useScrollAnimations';
+import { useDeviceCapability } from './hooks/useDeviceCapability';
 import Preloader from './components/Preloader';
 import CustomCursor from './components/CustomCursor';
 import LanguageToggle from './components/LanguageToggle';
@@ -34,8 +35,17 @@ function Shell() {
   const [loaded, setLoaded] = useState(false);
   const [entered, setEntered] = useState(false);
   const [musicOn, setMusicOn] = useState(false);
+  const { isLowPower, isMobile } = useDeviceCapability();
   useSmoothScroll(entered);
   useScrollAnimations(entered);
+
+  // Помечаем слабые устройства, чтобы CSS упростил самые дорогие эффекты
+  // (backdrop-filter, блюр световых пятен, зерно). На мощных — без изменений.
+  useEffect(() => {
+    const root = document.documentElement;
+    root.classList.toggle('low-power', isLowPower);
+    root.classList.toggle('is-mobile', isMobile);
+  }, [isLowPower, isMobile]);
 
   const enter = () => {
     setEntered(true);

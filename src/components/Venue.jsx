@@ -1,12 +1,35 @@
+import { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Divider } from './Ornament';
 import { Reveal } from './Reveal';
 import { VENUE } from '../data/content';
 import { useLang } from '../context/LanguageContext';
+import venueVideo from './IMG_4269.MP4';
 
 export default function Venue() {
   const { t } = useLang();
   const v = t.venue;
+  const videoSrc = VENUE.video || venueVideo;
+  const videoRef = useRef(null);
+
+  // Автозапуск, когда видео оказывается по центру экрана; пауза — когда уходит.
+  // Отрицательный rootMargin сужает область до центральной полосы вьюпорта.
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.play().catch(() => {}); // muted — политика автозапуска разрешает
+        } else {
+          el.pause();
+        }
+      },
+      { rootMargin: '-35% 0px -35% 0px', threshold: 0 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [videoSrc]);
 
   return (
     <section id="venue" className="section flex-col py-24 bg-page">
@@ -29,14 +52,17 @@ export default function Venue() {
           </p>
         </div>
 
-        {/* Видео ресторана */}
+        {/* Видео ресторана (вертикальное) */}
         <div className="glass rounded-2xl p-3">
-          <div className="relative w-full overflow-hidden rounded-xl bg-ivory-light" style={{ aspectRatio: '16 / 9' }}>
-            {VENUE.video ? (
+          <div className="relative mx-auto w-full max-w-sm overflow-hidden rounded-xl bg-ivory-light" style={{ aspectRatio: '3 / 5' }}>
+            {videoSrc ? (
               <video
-                src={VENUE.video}
+                ref={videoRef}
+                src={videoSrc}
                 poster={VENUE.poster || undefined}
                 controls
+                muted
+                loop
                 playsInline
                 preload="metadata"
                 className="h-full w-full object-cover"
