@@ -16,11 +16,11 @@ export default function LoveAnimation() {
     d: (i % 5) * 0.4,
   }));
 
-  const hearts = Array.from({ length: isLowPower ? 4 : 6 }, (_, i) => ({
-    x: 210 + i * 30,
-    delay: i * 0.7,
-    dur: 4 + (i % 3),
-  }));
+const hearts = Array.from({ length: 6 }, (_, i) => ({
+  x: 210 + i * 30,
+  delay: i * 0.7,
+  dur: 4 + (i % 3),
+}));
 
   return (
     <section id="love" className="section flex-col py-24 bg-panel overflow-hidden">
