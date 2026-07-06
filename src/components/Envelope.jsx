@@ -29,49 +29,6 @@ function EnvRose({ className = '' }) {
   );
 }
 
-// Парящие обручальные кольца над конвертом — лёгкий CSS-3D (без WebGL).
-function FloatingRings() {
-  return (
-    <motion.div
-      className="env-rings"
-      style={{ perspective: 620 }}
-      animate={{ y: [0, -9, 0] }}
-      transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut' }}
-    >
-      <motion.div
-        style={{ width: '100%', height: '100%', transformStyle: 'preserve-3d' }}
-        animate={{ rotateY: [-32, 32, -32], rotateX: [8, -6, 8] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <svg viewBox="0 0 130 120" width="100%" height="100%" style={{ filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.45))' }}>
-          <defs>
-            <linearGradient id="envRingGold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stopColor="#fbe6a6" />
-              <stop offset="0.4" stopColor="#e6c877" />
-              <stop offset="0.7" stopColor="#c69b3a" />
-              <stop offset="1" stopColor="#9a7420" />
-            </linearGradient>
-          </defs>
-          {/* Заднее кольцо */}
-          <ellipse cx="76" cy="58" rx="28" ry="33" fill="none" stroke="url(#envRingGold)" strokeWidth="9" />
-          <ellipse cx="76" cy="58" rx="28" ry="33" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeDasharray="16 60" strokeLinecap="round" />
-          {/* Переднее кольцо */}
-          <ellipse cx="50" cy="66" rx="28" ry="33" fill="none" stroke="url(#envRingGold)" strokeWidth="9" />
-          <ellipse cx="50" cy="66" rx="28" ry="33" fill="none" stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeDasharray="18 60" strokeLinecap="round" />
-          {/* Перекрытие для эффекта сцепки */}
-          <path d="M 60 40 A 28 33 0 0 1 66 86" fill="none" stroke="url(#envRingGold)" strokeWidth="9" strokeLinecap="round" />
-          {/* Бриллиант на переднем кольце */}
-          <g transform="translate(50,33)">
-            <polygon points="0,-9 7,-2 0,9 -7,-2" fill="#eaf6ff" stroke="#ffffff" strokeWidth="0.8" />
-            <polygon points="0,-9 7,-2 0,-1 -7,-2" fill="#ffffff" opacity="0.85" />
-            <circle cx="0" cy="0" r="12" fill="none" stroke="#fff" strokeWidth="0.6" opacity="0.35" />
-          </g>
-        </svg>
-      </motion.div>
-    </motion.div>
-  );
-}
-
 export default function EnvelopeGate({ onEnter }) {
   const { t, lang } = useLang();
   const [open, setOpen] = useState(false);
@@ -145,9 +102,6 @@ export default function EnvelopeGate({ onEnter }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Плавающие 3D обручальные кольца над конвертом (CSS 3D, без WebGL) */}
-            <FloatingRings />
-
             <div
               className={`env interactive ${open ? 'open' : ''}`}
               onClick={click}
@@ -243,20 +197,20 @@ export default function EnvelopeGate({ onEnter }) {
               animate={{ opacity: [0.55, 1, 0.55] }}
               transition={{ duration: 2.2, repeat: Infinity }}
             >
+              <motion.svg
+                viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="#e6c877" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round"
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <path d="M6 15l6-6 6 6" />
+              </motion.svg>
               <p
                 className="text-[0.66rem] md:text-xs uppercase tracking-[0.34em]"
                 style={{ color: '#f0d98a', textShadow: '0 2px 10px rgba(0,0,0,0.55)' }}
               >
                 {t.hero.cta}
               </p>
-              <motion.svg
-                viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="#e6c877" strokeWidth="2"
-                strokeLinecap="round" strokeLinejoin="round"
-                animate={{ y: [0, 5, 0] }}
-                transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <path d="M6 9l6 6 6-6" />
-              </motion.svg>
             </motion.div>
           )}
         </motion.div>

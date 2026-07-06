@@ -60,7 +60,6 @@ export default function Venue() {
                 ref={videoRef}
                 src={videoSrc}
                 poster={VENUE.poster || undefined}
-                controls
                 muted
                 loop
                 playsInline

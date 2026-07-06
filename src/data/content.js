@@ -16,14 +16,14 @@ export const content = {
     preloader: 'Taklifnoma yuklanmoqda',
     hero: {
       eyebrow: 'Bismillahir Rohmanir Rohiym',
-      pretitle: 'Nikoh to‘yimizga taklif etamiz',
+      pretitle: 'Nikoh marosimiga taklif etamiz',
       and: 'va',
       dateLabel: '08 Avgust, 2026',
-      cta: 'Taklifnomani ochish',
+      cta: 'Taklifnomaga bosing',
       scroll: 'Pastga suring',
     },
     countdown: {
-      title: 'Bayramgacha qoldi',
+      title: 'Marosimgacha qoldi',
       days: 'kun',
       hours: 'soat',
       minutes: 'daqiqa',
@@ -53,19 +53,19 @@ export const content = {
         'Yanvar', 'Fevral', 'Mart', 'Aprel', 'May', 'Iyun',
         'Iyul', 'Avgust', 'Sentabr', 'Oktabr', 'Noyabr', 'Dekabr',
       ],
-      eventLabel: 'Nikoh to‘yi',
+      eventLabel: 'Nikoh marosimi',
     },
     venue: {
       title: 'To‘y qayerda bo‘ladi',
       subtitle: 'To‘yxona haqida',
-      name: 'Farovon to‘yxonasi',
+      name: 'Farovon to‘ylar maskani',
       address: 'Navoiy sh., Karvon ko‘chasi 336',
       videoTitle: 'To‘yxona videosi',
       videoHint: 'Restoran videosini shu yerga joylang',
     },
     location: {
       title: 'Manzil',
-      subtitle: 'Farovon to‘yxonasi',
+      subtitle: 'Farovon to‘ylar maskani',
       route: 'Marshrut qurish',
     },
     footer: {
@@ -122,14 +122,14 @@ export const content = {
     venue: {
       title: 'Где пройдёт свадьба',
       subtitle: 'О месте торжества',
-      name: 'Той-хона «Farovon»',
+      name: '«Farovon» тойлар маскани',
       address: 'г. Навои, ул. Карвон 336',
       videoTitle: 'Видео ресторана',
       videoHint: 'Разместите здесь видео ресторана',
     },
     location: {
       title: 'Локация',
-      subtitle: 'Той-хона «Farovon»',
+      subtitle: '«Farovo Тойлар маскани n»',
       route: 'Построить маршрут',
     },
     footer: {

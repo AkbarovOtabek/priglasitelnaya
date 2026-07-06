@@ -4,8 +4,6 @@ import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { useScrollAnimations } from './hooks/useScrollAnimations';
 import { useDeviceCapability } from './hooks/useDeviceCapability';
 import Preloader from './components/Preloader';
-import CustomCursor from './components/CustomCursor';
-import LanguageToggle from './components/LanguageToggle';
 import MusicPlayer from './components/MusicPlayer';
 import Hero from './components/Hero';
 import EnvelopeGate from './components/Envelope';
@@ -76,8 +74,6 @@ function Shell() {
       {/* Золотая полоска прогресса прокрутки */}
       {entered && <ScrollProgress />}
 
-      <CustomCursor />
-      {entered && <LanguageToggle />}
       <MusicPlayer autostart={musicOn} />
 
       {/* Страница остаётся скрытой, пока не открыт конверт */}

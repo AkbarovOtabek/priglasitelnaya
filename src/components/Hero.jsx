@@ -5,8 +5,9 @@ import { Divider } from './Ornament';
 import { COUPLE } from '../data/content';
 import { useLang } from '../context/LanguageContext';
 
+import golub from './golub.png';
+
 const HeroScene = lazy(() => import('./HeroScene'));
-const Rings3D = lazy(() => import('./Rings3D'));
 
 export default function Hero({ active = true, onScrollNext }) {
   const { t, lang } = useLang();
@@ -45,25 +46,27 @@ export default function Hero({ active = true, onScrollNext }) {
             {t.hero.eyebrow}
           </motion.p>
 
-          {/* Парящие 3D обручальные кольца */}
+          {/* Парящие голуби */}
           <motion.div
             className="relative mt-2 mb-0"
             initial={{ opacity: 0, scale: 0.8, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Мягкое золотое свечение под кольцами */}
+            {/* Мягкое золотое свечение под голубями */}
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[85%] rounded-full pointer-events-none"
               style={{ background: 'radial-gradient(circle, rgba(230,190,90,0.28) 0%, rgba(230,140,90,0.1) 45%, transparent 72%)' }}
             />
-            <Suspense fallback={<div style={{ width: 'clamp(210px,44vw,300px)', height: 'clamp(210px,44vw,300px)' }} />}>
-              <Rings3D
-                active={sceneActive}
-                className="relative z-10"
-                style={{ width: 'clamp(210px, 44vw, 300px)', height: 'clamp(210px, 44vw, 300px)' }}
-              />
-            </Suspense>
+            <motion.img
+              src={golub}
+              alt=""
+              className="relative z-10 block object-contain select-none"
+              style={{ width: 'clamp(210px, 44vw, 300px)', height: 'clamp(210px, 44vw, 300px)' }}
+              draggable={false}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+            />
           </motion.div>
 
           <motion.h1

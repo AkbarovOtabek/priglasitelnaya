@@ -25,13 +25,12 @@ export default function LocationMap() {
         zoom: 15,
         scrollWheelZoom: false,
         zoomControl: true,
-        attributionControl: true,
+        attributionControl: false,
       });
       mapRef.current = map;
 
       // Светлая карта (CARTO light) под кремовую тему.
       L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '© OpenStreetMap © CARTO',
         maxZoom: 19,
       }).addTo(map);
 

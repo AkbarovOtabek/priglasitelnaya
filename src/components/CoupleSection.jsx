@@ -19,7 +19,7 @@ function FloatingHeart({ delay, left, size }) {
   return (
     <motion.div
       className="absolute pointer-events-none select-none z-20"
-      style={{ left, top: '2%', fontSize: size, color: '#e87090', lineHeight: 1 }}
+      style={{ left, top: '-12%', fontSize: size, color: '#e87090', lineHeight: 1 }}
       animate={{ y: [0, -60, -120], opacity: [0, 1, 0], scale: [0.5, 1.3, 0.7] }}
       transition={{ duration: 3 + delay * 0.4, delay, repeat: Infinity, ease: 'easeInOut' }}
     >

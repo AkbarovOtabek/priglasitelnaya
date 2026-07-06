@@ -87,7 +87,7 @@ export default function LoveAnimation() {
                 initial={{ opacity: 0 }}
                 animate={{ y: [0, -150], x: [0, i % 2 ? 18 : -18], opacity: [0, 0.9, 0] }}
                 transition={{ duration: h.dur, repeat: Infinity, delay: h.delay, ease: 'easeOut' }}
-                transform={`translate(${h.x} 300) scale(1.6)`}
+                transform={`translate(${h.x + 16} 200) scale(1.6)`}
               />
             ))}
 
